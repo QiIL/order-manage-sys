@@ -1,0 +1,53 @@
+{
+  "name": "order-manage-sys",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon app.js --exec babel-node",
+    "test": "NODE_ENV=unittest mocha --exit --compilers js:babel-register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QiIL/order-manage-sys.git"
+  },
+  "author": "qillk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/QiIL/order-manage-sys/issues"
+  },
+  "homepage": "https://github.com/QiIL/order-manage-sys#readme",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "jsonwebtoken": "^8.1.0",
+    "kcors": "^2.2.1",
+    "koa": "^2.4.1",
+    "koa-body": "^2.5.0",
+    "koa-json": "^2.0.2",
+    "koa-jwt": "^3.3.0",
+    "koa-logger": "^3.1.0",
+    "koa-parameter": "^3.0.1",
+    "koa-router": "^7.3.0",
+    "koa-static": "^4.0.2",
+    "lodash": "^4.17.5",
+    "mongoose": "^5.0.15",
+    "nconf": "^0.10.0",
+    "pg": "^7.4.1",
+    "pg-hstore": "^2.3.2"
+  },
+  "devDependencies": {
+    "0.": "^1.0.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "eslint": "^4.15.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "mocha": "^5.1.1",
+    "nodemon": "^1.17.3"
+  }
+}
