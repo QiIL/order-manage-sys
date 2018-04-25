@@ -12,10 +12,10 @@ describe('Controller: user', () => {
     const result = await request
       .post('/api/v1/register')
       .send({
-        phoneNumber: '987654321',
+        phoneNumber: '123456789',
         password: '123456789',
         realName: 'abc',
-        idCard: '441223199912122012',
+        idCard: '441223199912122022',
         managerId: manager.id,
         recommendId: manager.id
       })
