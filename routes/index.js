@@ -6,8 +6,8 @@ import Router from 'koa-router';
 // const path = require('path')
 
 /** 中间件导入 */
-// import { errorHandle, checkToken } from '../api/middlewares/index';
-
+import checkToken from '../api/middlewares/checkToken';
+import errorHandle from '../api/middlewares/errorHandle';
 /** 资源路由 */
 const router = new Router();
 /** restful api 路由 */
@@ -21,13 +21,14 @@ commonRouter.prefix('/v1');
 authRouter.prefix('/auth');
 
 /** 通用路由中间件 */
-// router.use(errorHandle());
+router.use(errorHandle());
 
 /** 平常路由中间件 */
 
 /** 监权路由中间件 */
-
+authRouter.use(checkToken());
 /** 路由编写 */
+require('./user')(router, authRouter, commonRouter);
 
 /** 整合路由 */
 router.use(commonRouter.routes(), commonRouter.allowedMethods());

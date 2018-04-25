@@ -5,15 +5,24 @@ import nconf from 'nconf';
 const saltRound = 10;
 
 const UserSchema = new Schema({
-  userName: { type: String, required: true, unique: true }, // 登录名
+  phoneNumber: { type: String, required: true, unique: true }, // 登录名(电话)
   password: { type: String, required: true }, // 密码(加盐哈希)
-  nickname: { type: String, required: true }, // 昵称
-  avatar: { type: String, required: true }, // 头像
+  nickname: { type: String }, // 昵称
+  realName: { type: String, required: true }, // 真实名称
+  idCard: {
+    type: String,
+    required: true,
+    unique: true,
+    minlength: 18,
+    maxlength: 18
+  }, // 身份证
+  avatar: { type: String }, // 头像
   sign: { type: String }, // 个性签名
   managerId: { type: String }, // 上级id
-  app_secret: { type: String, default: GetHmac() }, // token用
-  create_at: { type: Date, default: Date.now() }, // 创建时间
-  update_at: { type: Date, default: Date.now() } // 更新时间
+  isManager: { type: Boolean, default: false }, // 是否为管理员
+  appSecret: { type: String, default: GetHmac() }, // token用
+  createAt: { type: Date, default: Date.now() }, // 创建时间
+  updateAt: { type: Date, default: Date.now() } // 更新时间
 }, {
   versionKey: false,
   toJSON: {
@@ -23,6 +32,10 @@ const UserSchema = new Schema({
     }
   }
 });
+
+UserSchema.index({ realName: 1 });
+UserSchema.index({ phoneNumber: -1 });
+UserSchema.index({ managerId: -1 });
 
 function GetHmac (params) {
   const hmac = crypto.createHmac('sha256', nconf.get('secret_key'));
@@ -48,17 +61,10 @@ UserSchema.methods.comparePassword = async function (password) {
   return isMatch;
 };
 
-UserSchema.statics.findByName = async function (userName) {
-  const user = await this.findOne({
-    user_name: userName
-  });
-  return user;
-};
-
 UserSchema.statics.checkToken = async function (token) {
   // const user = await this.findOne({ _id: token.id })
   const user = await this.findById(token.id);
-  if (token.secret === user.app_secret) {
+  if (token.secret === user.appSecret) {
     return user;
   } else {
     throw Error('验证未通过!');
@@ -70,10 +76,10 @@ UserSchema.statics.checkAndUpdateToken = async function (token) {
   // const user = await this.findOne({ _id: token.id })
   const user = await this.findOneAndUpdate(
     { _id: token.id },
-    { app_secret: secret }
+    { appSecret: secret }
   );
-  if (token.secret === user.app_secret) {
-    user.app_secret = secret;
+  if (token.secret === user.appSecret) {
+    user.appSecret = secret;
     return user;
   } else {
     throw Error('验证未通过!');
