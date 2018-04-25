@@ -25,4 +25,8 @@ describe('Controller: user', () => {
     assert(result.body.code === 200);
     await User.deleteOne({ realName: 'abc' });
   });
+  it('Action: aaa', async () => {
+    const a = 1;
+    assert(a === 1);
+  });
 });
