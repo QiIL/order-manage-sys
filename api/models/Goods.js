@@ -1,0 +1,21 @@
+import mongoose, { Schema } from 'mongoose';
+
+const GoodsSchema = new Schema({
+  name: { type: String, required: true }, // 商品名
+  price: { type: Number, required: true }, // 商品价格
+  pictures: [{ type: String }], // 图片地址
+  des: { type: String }, // 商品描述
+  // target: { type: Number, required: true }, // 商品等级
+  createAt: { type: Date, default: Date.now() }, // 创建时间
+  updateAt: { type: Date, default: Date.now() } // 更新时间
+}, {
+  versionKey: false,
+  toJSON: {
+    transform: function (doc, ret) {
+      ret.id = ret._id;
+      delete ret._id;
+    }
+  }
+});
+
+export default mongoose.model('Goods', GoodsSchema);
